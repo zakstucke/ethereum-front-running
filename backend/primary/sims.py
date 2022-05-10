@@ -6,14 +6,14 @@ from web3 import Web3
 from datetime import timedelta
 from django.utils import timezone
 
-from backend import settings
-from backend.utils import get_contract_info, run_ganache
-from backend.asyncio_utils import thread_wrapper
-from backend.test_utils import get_ganache_accounts
-from backend.net.net import create_net
-from backend.account.account import create_account
-from backend.contract.contract import create_contract
-from backend.tx.tx import create_tx, TX_SUCCESS, GAS_FAST, GAS_SLOW, GAS_AVERAGE
+from dissertation.backend import settings
+from dissertation.backend.utils import get_contract_info, run_ganache
+from dissertation.backend.asyncio_utils import thread_wrapper
+from dissertation.backend.test_utils import get_ganache_accounts
+from dissertation.backend.net.net import create_net
+from dissertation.backend.account.account import create_account
+from dissertation.backend.contract.contract import create_contract
+from dissertation.backend.tx.tx import create_tx, TX_SUCCESS, GAS_FAST, GAS_SLOW, GAS_AVERAGE
 
 
 async def setup_env(net_name=None):
