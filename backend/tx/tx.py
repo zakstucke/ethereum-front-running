@@ -8,9 +8,9 @@ from hexbytes import HexBytes
 
 from django.utils import timezone
 
-import backend.settings as settings
-from backend.asyncio_utils import sync_to_async
-import backend.tx.pool as tx_pool_holder
+import dissertation.backend.settings as settings
+from dissertation.backend.asyncio_utils import sync_to_async
+import dissertation.backend.tx.pool as tx_pool_holder
 
 
 GAS_SLOW = "slow"
@@ -106,8 +106,6 @@ class Tx:
         # Add in preset values for things we can work out if not manually entered:
         if "chainId" not in self.data:
             self.data["chainId"] = self.net.chain_id
-        if "nonce" not in self.data:
-            self.data["nonce"] = self.account.nonce  # Will update when the tx actually sent
 
         # Specify gas values for the tx:
         gas_info = await self.calc_gas_info(is_init=True, specific_gas=self.specific_gas)
@@ -121,7 +119,7 @@ class Tx:
 
     async def log_tx(self, as_new=False, description="", experiment=None):
         assert self.status != TX_UNSENT, "Tx must have been sent to log"
-        from backend.tx.models import DbTx
+        from dissertation.backend.tx.models import DbTx
 
         # Convert any hexbyte objects to hex in the receipt:
         receipt = None
@@ -329,6 +327,10 @@ class Tx:
         Returns False if the tx is rejected, i.e. is a rebroadcast and the original tx has just been successful
         """
 
+        if "nonce" not in self.data:
+            self.data["nonce"] = self.account.nonce
+            self.account.nonce += 1  # Update the nonce as the tx has been sent
+
         # Prevent accidentally sending twice:
         if self.last_sent and not is_cancel and not is_rebroadcast:
             raise Exception(
@@ -378,10 +380,9 @@ class Tx:
 
         # Nonce should stay the same if it's a rebroadcast (i.e. second send of a tx) or cancel (which is still infact a specific type of rebroadcast)
         if not is_rebroadcast and not is_cancel:
+            # TODO think the best way to agnosticise all of this is just to do when nonce isn't provided, if nonce provided then should be assumed to be a repeat
             # Add to the pool to monitor:
             tx_pool_holder.TX_POOL.append(self)
-
-            self.account.nonce += 1  # Update the nonce as the tx has been sent
 
         # Add the current transaction information to the tx_attempts pool of the tx:
         self.tx_attempts.append(
