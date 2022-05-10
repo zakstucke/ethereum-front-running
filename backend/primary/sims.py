@@ -419,6 +419,37 @@ async def sim_pga(experiment, use_flash, agent, attacker, contract_address=None)
     )
 
 
+async def sim_sybil(base_agent, tx_data, number_of_agents, eth_to_fund):
+    agents = []
+
+    # Spwan the agents:
+    for x in range(number_of_agents):
+        wallet_info = base_agent.net.create_new_wallet()
+        agents.append(
+            await create_account(
+                base_agent.net,
+                address=wallet_info["address"],
+                private_key=wallet_info["private_key"],
+            )
+        )
+
+    # Fund the new wallets:
+    txs = []
+    for agent in agents:
+        txs.append(await create_tx(base_agent, {"to": agent.address, "value": eth_to_fund}))
+    await asyncio.wait([tx.send() for tx in txs])
+    await asyncio.wait([tx.wait() for tx in txs])
+
+    # Execute the distributed attack:
+    txs = []
+    for agent in agents:
+        tx_data_personal = copy.deepcopy(tx_data)
+        tx_data_personal["from"] = agent.address
+        txs.append(await create_tx(agent, tx_data_personal))
+    await asyncio.wait([tx.send() for tx in txs])
+    await asyncio.wait([tx.wait() for tx in txs])
+
+
 @thread_wrapper
 async def get_balances():
     # Returns [[time, balance]] for the past hour
