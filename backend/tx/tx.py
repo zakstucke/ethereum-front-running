@@ -8,9 +8,9 @@ from hexbytes import HexBytes
 
 from django.utils import timezone
 
-import dissertation.backend.settings as settings
-from dissertation.backend.asyncio_utils import sync_to_async
-import dissertation.backend.tx.pool as tx_pool_holder
+import backend.settings as settings
+from backend.asyncio_utils import sync_to_async
+import backend.tx.pool as tx_pool_holder
 
 
 GAS_SLOW = "slow"
@@ -119,7 +119,7 @@ class Tx:
 
     async def log_tx(self, as_new=False, description="", experiment=None):
         assert self.status != TX_UNSENT, "Tx must have been sent to log"
-        from dissertation.backend.tx.models import DbTx
+        from backend.tx.models import DbTx
 
         # Convert any hexbyte objects to hex in the receipt:
         receipt = None
