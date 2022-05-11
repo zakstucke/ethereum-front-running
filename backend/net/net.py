@@ -132,7 +132,6 @@ class Net:
         for tx_info in pool:
             txs_info.append(tx_info.data)
 
-        # XXX definitely write about this in critical eval etc.
         # Ideal method but not supported by infura, only works with ganache or own node:
         # info = (await self.provider.geth.txpool.content())["pending"]
         # txs_info = []

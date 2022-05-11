@@ -91,7 +91,6 @@ async def attacker_displacement_loop(forked_net, attacker, contract, agent, expe
 
             # Currently only want to look into the specific agent's transactions:
             if from_address.lower() == agent.address.lower():
-                # XXX: (talk about this in critical eval as well) missing step here is not having to know the contract in advance
                 function_called, params = contract.contract.decode_function_input(input)
 
                 # Convert the params to the account

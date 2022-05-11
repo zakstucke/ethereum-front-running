@@ -1,5 +1,8 @@
+asgiref==3.5.1
 web3==6.0.0-beta.1
 cachetools==5.0.0
+django==4.0.4
+djangorestframework==3.13.1
 asyncache==0.1.1
 nest-asyncio==1.5.5
 base58==2.1.1

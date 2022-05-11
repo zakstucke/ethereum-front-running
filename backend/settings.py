@@ -5,9 +5,9 @@ from decouple import Config, RepositoryEnv
 from getpass import getpass
 from eth_account.account import Account
 
-from django.conf import settings as base_settings
+PROJECT_DIR = "."
 
-ENV = Config(RepositoryEnv(os.path.join(base_settings.PROJECT_DIR, "private", "env")))
+ENV = Config(RepositoryEnv(os.path.join(PROJECT_DIR, "private", "env")))
 
 STORE_PASSWORD = ENV("STORE_PASSWORD", default=None)
 
@@ -20,11 +20,15 @@ def get_store_pass():
 
     return STORE_PASSWORD
 
-
-AGENT_PRIVATE_KEY = Account.decrypt(ENV("AGENT"), get_store_pass()).hex()
-AGENT_ADDRESS = Web3.toChecksumAddress(json.loads(ENV("AGENT"))["address"])
-ATTACKER_PRIVATE_KEY = Account.decrypt(ENV("ATTACKER"), get_store_pass()).hex()
-ATTACKER_ADDRESS = Web3.toChecksumAddress(json.loads(ENV("ATTACKER"))["address"])
+# After implementing a private environment file and encrypting an agent and attcker account, replace the below lines:
+AGENT_PRIVATE_KEY = ""
+AGENT_ADDRESS = ""
+ATTACKER_PRIVATE_KEY = ""
+ATTACKER_ADDRESS = ""
+# AGENT_PRIVATE_KEY = Account.decrypt(ENV("AGENT"), get_store_pass()).hex()
+# AGENT_ADDRESS = Web3.toChecksumAddress(json.loads(ENV("AGENT"))["address"])
+# ATTACKER_PRIVATE_KEY = Account.decrypt(ENV("ATTACKER"), get_store_pass()).hex()
+# ATTACKER_ADDRESS = Web3.toChecksumAddress(json.loads(ENV("ATTACKER"))["address"])
 
 REQUEST_TIMEOUT_SECS = 100
 MAX_ASYNC_REQUESTS = 100
@@ -36,7 +40,7 @@ GANACHE_CHAIN_ID = 1337
 GANACHE_PORT = 8545
 
 CONTRACT_PATH = os.path.join(
-    base_settings.PROJECT_DIR, "bin", "dissertation", "backend", "sol_files"
+    PROJECT_DIR, "bin", "dissertation", "backend", "sol_files"
 )
 
 DISPLACEMENT_ADDRESS = "0xd5a3D9Ea4198b98efaD0128aC31252c7dCC57076"

@@ -7,7 +7,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from backend.apps.user import permissions
+# from unavailable.apps.user import permissions
 
 from backend.asyncio_utils import async_runner, thread_wrapper
 from backend.primary.serializers_write import RunSimulationSerializer

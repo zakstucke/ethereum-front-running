@@ -1,4 +1,4 @@
-from backend.celery.config import logged_task
+# from unavailable.celery.config import logged_task
 
 from web3 import Web3
 

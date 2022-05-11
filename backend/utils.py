@@ -10,12 +10,10 @@ from web3 import Web3
 from eth_account.account import Account as EthAccount
 from functools import wraps
 
-from django.conf import settings as base_settings
-
 import backend.settings as settings
 
-GANACHE_PATH = os.path.join(base_settings.PROJECT_DIR, "node_modules", ".bin", "ganache")
-GANACHE_KEYS_PATH = os.path.join(base_settings.PROJECT_DIR, "process_data", "ganache_keys.json")
+GANACHE_PATH = os.path.join(settings.PROJECT_DIR, "node_modules", ".bin", "ganache")
+GANACHE_KEYS_PATH = os.path.join(settings.PROJECT_DIR, "process_data", "ganache_keys.json")
 
 
 def get_contract_info(contract_name):
@@ -104,8 +102,8 @@ def run_ganache(
     if verbose:
         command.append("--logging.verbose")
 
-    ganache_log_path = os.path.join(base_settings.PROJECT_DIR, "process_data", "ganache_log.txt")
-    ganache_err_path = os.path.join(base_settings.PROJECT_DIR, "process_data", "ganache_err.txt")
+    ganache_log_path = os.path.join(settings.PROJECT_DIR, "process_data", "ganache_log.txt")
+    ganache_err_path = os.path.join(settings.PROJECT_DIR, "process_data", "ganache_err.txt")
 
     # Runs ganache as a non-blocking subprocess, logs stdout and errors to files in process_data:
     # NOTE: currently overwriting each run, may be beneficial to solve this in some way at some point.
