@@ -118,9 +118,6 @@ class Tx:
         return tx_pool_holder.TX_POOL
 
     async def log_tx(self, as_new=False, description="", experiment=None):
-        if not experiment: 
-            return # Cannot log if no experiment
-
         assert self.status != TX_UNSENT, "Tx must have been sent to log"
         from backend.tx.models import DbTx
 

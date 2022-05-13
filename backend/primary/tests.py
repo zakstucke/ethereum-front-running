@@ -8,9 +8,9 @@ from backend.test_utils import TestCase, async_test
 from backend.contract.contract import create_contract
 from backend.tx.tx import TX_SUCCESS, create_tx
 from backend.primary.sims import sim_displacement, sim_sandwich, sim_pga
-from backend.primary.models import ExperimentLog
 from backend.primary.tasks import execute_experiment
 
+from backend.primary.models import ExperimentLog
 
 @sync_to_async
 def create_experiment(name):

@@ -1,6 +1,8 @@
 # from django.conf import settings
 # from django.utils import timezone
+
 # from unavailable.overrides import models
+from django.db import models
 
 # from solo.models import SingletonModel
 

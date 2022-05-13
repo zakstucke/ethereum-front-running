@@ -1,3 +1,10 @@
+import os
+import django
+os.environ["DJANGO_SETTINGS_MODULE"] = "backend.settings"
+django.setup()
+from django.core.management import call_command
+call_command("migrate")
+
 from backend.asyncio_utils import async_runner, thread_wrapper
 from backend.primary.sims import sim_displacement
 from backend.utils import get_ganache_accounts, run_ganache
@@ -8,12 +15,6 @@ from backend.tx.tx import TX_SUCCESS
 from backend.utils import get_contract_info
 
 import backend.settings as settings
-
-# Generic django setup as assuming not installed
-import django
-from django.conf import settings as django_settings
-django_settings.configure()
-django.setup()
 
 @thread_wrapper
 async def main():

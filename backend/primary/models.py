@@ -1,7 +1,7 @@
 # from django.conf import settings
 # from django.utils import timezone
 # from unavailable.overrides import models
-
+from django.db import models
 
 class ExperimentLog(models.Model):
     name = models.CharField(max_length=256)

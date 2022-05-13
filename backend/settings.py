@@ -11,6 +11,27 @@ ENV = Config(RepositoryEnv(os.path.join(PROJECT_DIR, "private", "env")))
 
 STORE_PASSWORD = ENV("STORE_PASSWORD", default=None)
 
+INSTALLED_APPS = [
+    "django.contrib.contenttypes",
+    "django.contrib.auth",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "django.forms",
+    "django.contrib.staticfiles",
+    "rest_framework",
+    "backend.net",
+    "backend.account",
+    "backend.tx",
+    "backend.contract",
+    "backend.primary",
+]
+
+DATABASES = {
+  'default': {
+    'ENGINE': 'django.db.backends.sqlite3',
+    'NAME': "default"
+    }
+}
 
 def get_store_pass():
     global STORE_PASSWORD

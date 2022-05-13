@@ -9,6 +9,14 @@ from backend.asyncio_utils import async_runner, thread_wrapper, sync_to_async
 from backend.primary.sims import setup_env, sim_displacement, sim_sandwich, sim_pga
 from backend.primary.models import ExperimentLog
 
+def logged_task():
+    def wrapper(func):
+        def internal(*args, **kwargs):
+            return func(None, None, *args, **kwargs)
+
+        return internal
+
+    return wrapper
 
 async def execute_experiment(
     sim_routine,

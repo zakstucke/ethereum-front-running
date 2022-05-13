@@ -1,7 +1,8 @@
 from django.conf import settings as base_settings
+from django.core.management import call_command
 
 # from unavailable.test_utils import TransactionTestCase
-TransactionTestCase = object
+from rest_framework.test import APITransactionTestCase as TransactionTestCase
 
 from backend import tx
 import backend.settings as settings
@@ -34,6 +35,14 @@ class TestCase(TransactionTestCase):
         # Setting connections to force close and using the modified sync_to_async function in asyncio_utils prevents hanging connections that stop the test db from deleting
         base_settings.DATABASES["default"]["CONN_MAX_AGE"] = 0
         super().setUpClass()
+
+    @classmethod
+    def setUpTestData(cls):
+        print("Flushing db from any other test suites...")
+        call_command("flush", interactive=False)
+
+        # Custom command to setup tests:
+        call_command("populate_test_db")        
 
     async def asyncSetUp(self, *ganache_args, non_ganache_endpoint=False, **ganache_kwargs):
 
